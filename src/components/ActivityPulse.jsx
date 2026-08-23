@@ -15,12 +15,43 @@ export default function ActivityPulse() {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <h3 style={styles.title}>Chronos Activity Pulse</h3>
-        <p style={styles.subtitle}>Flowing timeline showing workforce activity throughout the day.</p>
+        <div style={styles.headerLeft}>
+          <h3 style={styles.title}>Chronos Activity Pulse</h3>
+          <p style={styles.subtitle}>Flowing timeline showing workforce activity.</p>
+        </div>
+        
+        {/* Compact Horizontal Hover Info */}
+        <div style={styles.infoArea}>
+          <AnimatePresence mode="wait">
+            {hoveredNode ? (
+              <motion.div
+                key="content"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 10 }}
+                style={styles.horizontalInfo}
+              >
+                <div style={styles.miniStat}><span style={styles.miniLabel}>App</span> {hoveredNode.app}</div>
+                <div style={styles.miniStat}><span style={styles.miniLabel}>Duration</span> {hoveredNode.duration}</div>
+                <div style={styles.miniStat}><span style={styles.miniLabel}>Category</span> <span style={{color: hoveredNode.color}}>{hoveredNode.category}</span></div>
+                <div style={styles.miniStat}><span style={styles.miniLabel}>Privacy</span> <span style={styles.infoValuePill}>{hoveredNode.privacy}</span></div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={styles.emptyState}
+              >
+                Hover timeline for details
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
       
       <div style={styles.timelineContainer}>
-        {/* Animated particles background */}
         <div style={styles.particleLayer}>
           {[...Array(20)].map((_, i) => (
             <motion.div
@@ -43,7 +74,6 @@ export default function ActivityPulse() {
           ))}
         </div>
 
-        {/* Timeline blocks */}
         <div style={styles.track}>
           {MOCK_DATA.map((item) => (
             <motion.div
@@ -56,61 +86,11 @@ export default function ActivityPulse() {
               }}
               onHoverStart={() => setHoveredNode(item)}
               onHoverEnd={() => setHoveredNode(null)}
-              whileHover={{ scaleY: 1.2, zIndex: 10 }}
+              whileHover={{ scaleY: 1.4, zIndex: 10 }}
               transition={{ duration: 0.2 }}
             />
           ))}
         </div>
-      </div>
-
-      {/* Hover Info Panel */}
-      <div style={styles.infoPanel}>
-        <AnimatePresence mode="wait">
-          {hoveredNode ? (
-            <motion.div
-              key="content"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              style={styles.infoCard}
-            >
-              <div style={styles.infoRow}>
-                <span style={styles.infoLabel}>Application</span>
-                <span style={styles.infoValue}>{hoveredNode.app}</span>
-              </div>
-              <div style={styles.infoRow}>
-                <span style={styles.infoLabel}>Duration</span>
-                <span style={styles.infoValue}>{hoveredNode.duration}</span>
-              </div>
-              <div style={styles.infoRow}>
-                <span style={styles.infoLabel}>Category</span>
-                <span style={{...styles.infoValue, color: hoveredNode.color}}>{hoveredNode.category}</span>
-              </div>
-              <div style={styles.infoRow}>
-                <span style={styles.infoLabel}>State</span>
-                <span style={styles.infoValue}>{hoveredNode.state}</span>
-              </div>
-              <div style={styles.infoRow}>
-                <span style={styles.infoLabel}>Privacy</span>
-                <span style={styles.infoValuePill}>{hoveredNode.privacy}</span>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="empty"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              style={styles.emptyState}
-            >
-              Hover over the timeline to view activity details.
-              <br/>
-              <span style={{ fontSize: '12px', color: 'var(--muted)', marginTop: '8px', display: 'block' }}>
-                * No real personal information is exposed.
-              </span>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </div>
   );
@@ -124,25 +104,77 @@ const styles = {
     padding: '24px',
     display: 'flex',
     flexDirection: 'column',
-    gap: '32px',
+    gap: '24px',
   },
   header: {
-    textAlign: 'left',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '42px',
+  },
+  headerLeft: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   title: {
-    fontSize: '18px',
+    fontSize: '16px',
     fontWeight: 600,
     margin: 0,
-    marginBottom: '8px',
+    marginBottom: '2px',
   },
   subtitle: {
     color: 'var(--muted)',
-    fontSize: '14px',
+    fontSize: '12px',
     margin: 0,
+  },
+  infoArea: {
+    display: 'flex',
+    alignItems: 'center',
+    background: 'var(--surface-2)',
+    border: '1px solid var(--line)',
+    borderRadius: '24px',
+    padding: '6px 16px',
+    minWidth: '340px',
+    height: '38px',
+    justifyContent: 'flex-end',
+  },
+  horizontalInfo: {
+    display: 'flex',
+    gap: '16px',
+    alignItems: 'center',
+    fontSize: '13px',
+    fontWeight: 500,
+  },
+  miniStat: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+  },
+  miniLabel: {
+    color: 'var(--muted)',
+    fontSize: '11px',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+  },
+  emptyState: {
+    color: 'var(--muted)',
+    fontSize: '12px',
+    fontStyle: 'italic',
+    width: '100%',
+    textAlign: 'center',
+  },
+  infoValuePill: {
+    background: 'rgba(198, 161, 92, 0.15)',
+    color: 'var(--brass)',
+    padding: '2px 8px',
+    borderRadius: '12px',
+    fontSize: '11px',
+    fontWeight: 600,
+    border: '1px solid rgba(198, 161, 92, 0.3)',
   },
   timelineContainer: {
     position: 'relative',
-    height: '64px',
+    height: '48px',
     background: 'rgba(0,0,0,0.2)',
     borderRadius: '4px',
     overflow: 'hidden',
@@ -163,7 +195,7 @@ const styles = {
   },
   track: {
     width: '100%',
-    height: '16px',
+    height: '12px',
     display: 'flex',
     gap: '2px',
     padding: '0 4px',
@@ -175,52 +207,5 @@ const styles = {
     borderRadius: '2px',
     cursor: 'pointer',
     position: 'relative',
-  },
-  infoPanel: {
-    minHeight: '220px',
-    background: 'var(--surface-2)',
-    borderRadius: 'var(--radius)',
-    border: '1px solid var(--line)',
-    padding: '20px',
-  },
-  emptyState: {
-    color: 'var(--muted)',
-    textAlign: 'center',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontStyle: 'italic',
-  },
-  infoCard: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '12px',
-  },
-  infoRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: '8px',
-    borderBottom: '1px dashed var(--line)',
-  },
-  infoLabel: {
-    color: 'var(--muted)',
-    fontSize: '13px',
-    fontFamily: "'IBM Plex Mono', monospace",
-  },
-  infoValue: {
-    fontWeight: 500,
-    fontSize: '14px',
-  },
-  infoValuePill: {
-    background: 'rgba(198, 161, 92, 0.15)',
-    color: 'var(--brass)',
-    padding: '4px 10px',
-    borderRadius: '12px',
-    fontSize: '12px',
-    fontWeight: 600,
-    border: '1px solid rgba(198, 161, 92, 0.3)',
-  },
+  }
 };
