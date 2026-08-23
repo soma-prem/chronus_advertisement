@@ -22,20 +22,20 @@ export default function DashboardHero() {
 
           {/* Floating Nodes */}
           <div style={styles.nodesOverlay}>
-            <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity }} style={{...styles.node, top: '20%', left: '10%'}}>
+            <motion.div animate={{ x: [0, 15, -10, 0], y: [0, -15, 10, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} style={{...styles.node, top: '15%', left: '5%'}}>
               <Monitor size={16} color="var(--muted)" /> Windows
             </motion.div>
-            <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 5, repeat: Infinity }} style={{...styles.node, top: '50%', left: '15%'}}>
+            <motion.div animate={{ x: [0, -10, 15, 0], y: [0, 20, -5, 0] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} style={{...styles.node, top: '60%', left: '8%'}}>
               <Laptop size={16} color="var(--muted)" /> macOS
             </motion.div>
-            <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 3.5, repeat: Infinity }} style={{...styles.node, top: '75%', left: '25%'}}>
+            <motion.div animate={{ x: [0, 10, -15, 0], y: [0, -10, 15, 0] }} transition={{ duration: 9, repeat: Infinity, ease: "linear" }} style={{...styles.node, top: '85%', left: '20%'}}>
               <Server size={16} color="var(--muted)" /> Linux
             </motion.div>
 
-            <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity }} style={{...styles.node, top: '40%', left: '45%', border: '1px solid var(--teal)', color: 'var(--teal)'}}>
+            <motion.div animate={{ scale: [1, 1.05, 1], y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} style={{...styles.node, top: '10%', left: '45%', border: '1px solid var(--teal)', color: 'var(--teal)'}}>
               <Lock size={16} /> Privacy Processing
             </motion.div>
-            <motion.div style={{...styles.node, top: '40%', right: '15%'}}>
+            <motion.div animate={{ x: [0, -15, 10, 0], y: [0, 15, -10, 0] }} transition={{ duration: 12, repeat: Infinity, ease: "linear" }} style={{...styles.node, top: '50%', right: '5%'}}>
               <Database size={16} color="var(--brass)" /> Analytics
             </motion.div>
           </div>
