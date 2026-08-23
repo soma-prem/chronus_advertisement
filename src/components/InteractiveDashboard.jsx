@@ -38,7 +38,6 @@ function Counter({ from, to, duration = 1 }) {
 
 export default function InteractiveDashboard() {
   const navItems = [
-    { name: 'Overview', icon: <Activity size={16} /> },
     { name: 'Activity', icon: <Zap size={16} /> },
     { name: 'Productivity', icon: <PieChart size={16} /> },
     { name: 'Devices', icon: <Monitor size={16} /> },
@@ -46,7 +45,7 @@ export default function InteractiveDashboard() {
     { name: 'Analytics', icon: <BarChart3 size={16} /> },
   ];
 
-  const [activeNav, setActiveNav] = useState('Overview');
+  const [activeNav, setActiveNav] = useState('Activity');
 
   return (
     <div style={styles.dashboardWrapper}>
@@ -107,13 +106,12 @@ export default function InteractiveDashboard() {
           </motion.div>
 
           <div style={styles.visualizationsPlaceholder}>
-             {activeNav === 'Overview' && (
+             {activeNav === 'Activity' && (
                <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
                  <ActivityPulse />
                  <AppUtilization />
                </div>
              )}
-             {activeNav === 'Activity' && <ActivityPulse />}
              {activeNav === 'Productivity' && <ProductivityAnalytics />}
              {activeNav === 'Privacy' && <PrivacyPipeline />}
              {activeNav === 'Devices' && <div style={styles.emptyNavState}>Devices module loading...</div>}
@@ -285,7 +283,7 @@ const styles = {
   },
   mainContent: {
     display: 'grid',
-    gridTemplateColumns: '1fr 340px',
+    gridTemplateColumns: '1fr 1fr',
     gap: '32px',
     padding: '32px',
     flex: 1,
