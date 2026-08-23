@@ -6,7 +6,7 @@ import React from 'react';
  * Props (all optional, for easy customization):
  *  - logoText: string   (default "Chronos")
  *  - links:     Array<{ label, href }>
- *  - signInLabel / ctaLabel / ctaHref
+ *  - ctaLabel / ctaHref
  */
 export default function Navbar({
   logoText = 'Chronos',
@@ -17,8 +17,6 @@ export default function Navbar({
     { label: 'Architecture', href: '#architecture' },
     { label: 'Features', href: '#features' },
   ],
-  signInLabel = 'Sign in',
-  signInHref = '#cta',
   ctaLabel = 'Request a demo',
   ctaHref = '#cta',
 }) {
@@ -42,13 +40,6 @@ export default function Navbar({
 
         {/* Right-side CTAs */}
         <div style={styles.navcta}>
-          <a
-            href={signInHref}
-            className="btn btn-ghost"
-            style={{ padding: '9px 16px' }}
-          >
-            {signInLabel}
-          </a>
           <a href={ctaHref} className="btn btn-primary">
             {ctaLabel}
           </a>
