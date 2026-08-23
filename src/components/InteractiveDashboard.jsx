@@ -9,11 +9,11 @@ import PrivacyPipeline from './PrivacyPipeline';
 // import PerformanceSection from './PerformanceSection';
 // import OfflineQueue from './OfflineQueue';
 // import CrossPlatform from './CrossPlatform';
-// import DeviceHealth from './DeviceHealth';
+import DeviceHealth from './DeviceHealth';
 // import ArchitectureViz from './ArchitectureViz';
 // import AgentFsm from './AgentFsm';
 // import PrivacyControls from './PrivacyControls';
-// import EnterpriseInsights from './EnterpriseInsights';
+import EnterpriseInsights from './EnterpriseInsights';
 
 function Counter({ from, to, duration = 1 }) {
   const [count, setCount] = useState(from);
@@ -94,16 +94,7 @@ export default function InteractiveDashboard() {
         
         {/* Left/Main Column - Will hold the interactive visualizations */}
         <div style={styles.centerCol}>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            style={styles.sectionHeader}
-          >
-            <h2>{activeNav} Dashboard</h2>
-            <p>Real-time workforce intelligence and system telemetry.</p>
-          </motion.div>
+
 
           <div style={styles.visualizationsPlaceholder}>
              {activeNav === 'Activity' && (
@@ -114,8 +105,8 @@ export default function InteractiveDashboard() {
              )}
              {activeNav === 'Productivity' && <ProductivityAnalytics />}
              {activeNav === 'Privacy' && <PrivacyPipeline />}
-             {activeNav === 'Devices' && <div style={styles.emptyNavState}>Devices module loading...</div>}
-             {activeNav === 'Analytics' && <div style={styles.emptyNavState}>Analytics module loading...</div>}
+             {activeNav === 'Devices' && <DeviceHealth />}
+             {activeNav === 'Analytics' && <EnterpriseInsights />}
           </div>
           
         </div>
@@ -283,7 +274,7 @@ const styles = {
   },
   mainContent: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: '7fr 3fr',
     gap: '32px',
     padding: '32px',
     flex: 1,
@@ -319,34 +310,34 @@ const styles = {
     padding: '24px',
   },
   metricsTitle: {
-    fontSize: '14px',
+    fontSize: '12px',
     fontWeight: 600,
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
     color: 'var(--muted)',
-    marginBottom: '24px',
+    marginBottom: '20px',
   },
   metricRow: {
     display: 'flex',
     alignItems: 'flex-start',
-    gap: '16px',
-    marginBottom: '20px',
+    gap: '12px',
+    marginBottom: '16px',
   },
   metricIcon: {
     color: 'var(--brass)',
-    marginTop: '2px',
+    marginTop: '0px',
   },
   metricDetails: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '4px',
+    gap: '2px',
   },
   metricLabel: {
-    fontSize: '13px',
+    fontSize: '11px',
     color: 'var(--muted)',
   },
   metricValue: {
-    fontSize: '24px',
+    fontSize: '18px',
     fontWeight: 600,
     color: 'var(--ink)',
     letterSpacing: '-0.02em',
