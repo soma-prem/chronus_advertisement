@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Play, ArrowRight, Monitor, Laptop, Server, Lock, Database } from 'lucide-react';
+import { Play, Monitor, Laptop, Server, Lock, Database } from 'lucide-react';
 
 export default function DashboardHero() {
   return (
