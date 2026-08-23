@@ -1,0 +1,356 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Activity, PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap } from 'lucide-react';
+
+import ActivityPulse from './ActivityPulse';
+import ProductivityAnalytics from './ProductivityAnalytics';
+import AppUtilization from './AppUtilization';
+import PrivacyPipeline from './PrivacyPipeline';
+// import PerformanceSection from './PerformanceSection';
+// import OfflineQueue from './OfflineQueue';
+// import CrossPlatform from './CrossPlatform';
+// import DeviceHealth from './DeviceHealth';
+// import ArchitectureViz from './ArchitectureViz';
+// import AgentFsm from './AgentFsm';
+// import PrivacyControls from './PrivacyControls';
+// import EnterpriseInsights from './EnterpriseInsights';
+
+function Counter({ from, to, duration = 1 }) {
+  const [count, setCount] = useState(from);
+
+  useEffect(() => {
+    let startTime = null;
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+      
+      setCount(Math.floor(progress * (to - from) + from));
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    requestAnimationFrame(animate);
+  }, [from, to, duration]);
+
+  return <span>{count}</span>;
+}
+
+export default function InteractiveDashboard() {
+  const navItems = [
+    { name: 'Overview', icon: <Activity size={16} /> },
+    { name: 'Activity', icon: <Zap size={16} /> },
+    { name: 'Productivity', icon: <PieChart size={16} /> },
+    { name: 'Devices', icon: <Monitor size={16} /> },
+    { name: 'Privacy', icon: <Shield size={16} /> },
+    { name: 'Analytics', icon: <BarChart3 size={16} /> },
+  ];
+
+  const [activeNav, setActiveNav] = useState('Overview');
+
+  return (
+    <div style={styles.dashboardWrapper}>
+      {/* Top Navigation / Branding */}
+      <header style={styles.header}>
+        <div style={styles.brand}>
+          <div style={styles.logoMark} />
+          <span style={styles.brandText}>Chronos</span>
+        </div>
+        
+        <nav style={styles.nav}>
+          {navItems.map((item) => (
+            <button 
+              key={item.name} 
+              style={{
+                ...styles.navItem, 
+                color: activeNav === item.name ? 'var(--ink)' : 'var(--muted)',
+                background: activeNav === item.name ? 'var(--surface-2)' : 'transparent'
+              }}
+              onClick={() => setActiveNav(item.name)}
+            >
+              {item.icon}
+              {item.name}
+            </button>
+          ))}
+        </nav>
+
+        <div style={styles.headerRight}>
+          <div style={styles.liveStatus}>
+            <motion.div 
+              animate={{ opacity: [1, 0.4, 1] }} 
+              transition={{ duration: 2, repeat: Infinity }}
+              style={styles.statusDot} 
+            />
+            Live Status
+          </div>
+          <div style={styles.orgSelector}>
+            Acme Corp ↓
+          </div>
+          <div style={styles.profileAvatar}>J</div>
+        </div>
+      </header>
+
+      {/* Main Dashboard Layout */}
+      <main style={styles.mainContent}>
+        
+        {/* Left/Main Column - Will hold the interactive visualizations */}
+        <div style={styles.centerCol}>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            style={styles.sectionHeader}
+          >
+            <h2>{activeNav} Dashboard</h2>
+            <p>Real-time workforce intelligence and system telemetry.</p>
+          </motion.div>
+
+          <div style={styles.visualizationsPlaceholder}>
+             {activeNav === 'Overview' && (
+               <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                 <ActivityPulse />
+                 <AppUtilization />
+               </div>
+             )}
+             {activeNav === 'Activity' && <ActivityPulse />}
+             {activeNav === 'Productivity' && <ProductivityAnalytics />}
+             {activeNav === 'Privacy' && <PrivacyPipeline />}
+             {activeNav === 'Devices' && <div style={styles.emptyNavState}>Devices module loading...</div>}
+             {activeNav === 'Analytics' && <div style={styles.emptyNavState}>Analytics module loading...</div>}
+          </div>
+          
+        </div>
+
+        {/* Right Sidebar - Active Workforce Metrics */}
+        <aside style={styles.rightSidebar}>
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, staggerChildren: 0.1 }}
+            style={styles.metricsCard}
+          >
+            <h3 style={styles.metricsTitle}>Organization Health</h3>
+            
+            <div style={styles.metricRow}>
+              <div style={styles.metricIcon}><Users size={16} /></div>
+              <div style={styles.metricDetails}>
+                <div style={styles.metricLabel}>Active Workforce</div>
+                <div style={styles.metricValue}>
+                  <Counter from={0} to={128} /> / 146
+                </div>
+              </div>
+            </div>
+
+            <div style={styles.metricRow}>
+              <div style={styles.metricIcon}><Clock size={16} /></div>
+              <div style={styles.metricDetails}>
+                <div style={styles.metricLabel}>Avg Focus Time</div>
+                <div style={styles.metricValue}>6h 42m</div>
+              </div>
+            </div>
+
+            <div style={styles.metricRow}>
+              <div style={styles.metricIcon}><PieChart size={16} /></div>
+              <div style={styles.metricDetails}>
+                <div style={styles.metricLabel}>Productivity Score</div>
+                <div style={styles.metricValue}>
+                  <Counter from={0} to={84} />%
+                </div>
+              </div>
+            </div>
+
+            <div style={styles.metricRow}>
+              <div style={styles.metricIcon}><Monitor size={16} /></div>
+              <div style={styles.metricDetails}>
+                <div style={styles.metricLabel}>Devices Online</div>
+                <div style={styles.metricValue}>
+                  <Counter from={0} to={139} /> / 146
+                </div>
+              </div>
+            </div>
+
+            <div style={styles.metricRow}>
+              <div style={styles.metricIcon}><Shield size={16} /></div>
+              <div style={styles.metricDetails}>
+                <div style={styles.metricLabel}>Sync Health</div>
+                <div style={styles.metricValue}>
+                  99.<Counter from={0} to={8} />%
+                </div>
+              </div>
+            </div>
+
+          </motion.div>
+        </aside>
+
+      </main>
+    </div>
+  );
+}
+
+const styles = {
+  dashboardWrapper: {
+    maxWidth: '1440px',
+    margin: '0 auto',
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    fontFamily: "'Inter', sans-serif",
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '16px 32px',
+    borderBottom: '1px solid var(--line)',
+    background: 'rgba(10, 10, 11, 0.8)',
+    backdropFilter: 'blur(12px)',
+    position: 'sticky',
+    top: 0,
+    zIndex: 100,
+  },
+  brand: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+  },
+  logoMark: {
+    width: '24px',
+    height: '24px',
+    borderRadius: '4px',
+    background: 'linear-gradient(135deg, var(--brass), var(--brass-dim))',
+  },
+  brandText: {
+    fontWeight: 600,
+    fontSize: '18px',
+    letterSpacing: '-0.02em',
+    color: 'var(--ink)',
+  },
+  nav: {
+    display: 'flex',
+    gap: '4px',
+  },
+  navItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '8px 16px',
+    borderRadius: 'var(--radius)',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: '14px',
+    fontWeight: 500,
+    transition: 'all 0.2s',
+  },
+  headerRight: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '24px',
+  },
+  liveStatus: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    fontSize: '13px',
+    color: 'var(--success)',
+    fontWeight: 500,
+  },
+  statusDot: {
+    width: '8px',
+    height: '8px',
+    borderRadius: '50%',
+    background: 'var(--success)',
+    boxShadow: '0 0 8px var(--success)',
+  },
+  orgSelector: {
+    fontSize: '13px',
+    color: 'var(--ink)',
+    padding: '6px 12px',
+    background: 'var(--surface)',
+    border: '1px solid var(--line)',
+    borderRadius: 'var(--radius)',
+    cursor: 'pointer',
+  },
+  profileAvatar: {
+    width: '32px',
+    height: '32px',
+    borderRadius: '50%',
+    background: 'var(--surface-2)',
+    border: '1px solid var(--line)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '14px',
+    fontWeight: 600,
+  },
+  mainContent: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 340px',
+    gap: '32px',
+    padding: '32px',
+    flex: 1,
+  },
+  centerCol: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '32px',
+  },
+  sectionHeader: {
+    marginBottom: '8px',
+  },
+  visualizationsPlaceholder: {
+    minHeight: '400px',
+  },
+  emptyNavState: {
+    padding: '60px',
+    textAlign: 'center',
+    color: 'var(--muted)',
+    background: 'var(--surface)',
+    border: '1px solid var(--line)',
+    borderRadius: 'var(--radius)',
+  },
+  rightSidebar: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '24px',
+  },
+  metricsCard: {
+    background: 'var(--surface)',
+    border: '1px solid var(--line)',
+    borderRadius: 'var(--radius)',
+    padding: '24px',
+  },
+  metricsTitle: {
+    fontSize: '14px',
+    fontWeight: 600,
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+    color: 'var(--muted)',
+    marginBottom: '24px',
+  },
+  metricRow: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '16px',
+    marginBottom: '20px',
+  },
+  metricIcon: {
+    color: 'var(--brass)',
+    marginTop: '2px',
+  },
+  metricDetails: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+  },
+  metricLabel: {
+    fontSize: '13px',
+    color: 'var(--muted)',
+  },
+  metricValue: {
+    fontSize: '24px',
+    fontWeight: 600,
+    color: 'var(--ink)',
+    letterSpacing: '-0.02em',
+  },
+};
