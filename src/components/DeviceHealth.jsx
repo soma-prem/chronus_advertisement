@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Monitor, Laptop, Server, CheckCircle2, Circle, Clock, Activity, Wifi, WifiOff, RefreshCw } from 'lucide-react';
+import { Monitor, Laptop, Server, CheckCircle2, Circle, Wifi, WifiOff, RefreshCw } from 'lucide-react';
 
 const OS_ICONS = {
   windows: <Monitor size={14} />,
