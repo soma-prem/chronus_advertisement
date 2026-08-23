@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Activity, PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap } from 'lucide-react';
+import { PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap } from 'lucide-react';
 
 import ActivityPulse from './ActivityPulse';
 import ProductivityAnalytics from './ProductivityAnalytics';
