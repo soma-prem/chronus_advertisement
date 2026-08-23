@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 /**
  * DepartmentPolicyOverrides — Org-chart tree where each department node
