@@ -58,7 +58,7 @@ export default function InteractiveDashboard() {
       setActiveNav(name);
       setIsTransitioning(false);
       setPendingNav(null);
-    }, 3000);
+    }, 2000);
   };
 
   return (
@@ -100,7 +100,7 @@ export default function InteractiveDashboard() {
             Live Status
           </div>
           <div style={styles.orgSelector}>
-            Acme Corp ↓
+            Organization Name ↓
           </div>
           <div style={styles.profileAvatar}>J</div>
         </div>
@@ -121,7 +121,30 @@ export default function InteractiveDashboard() {
                    animate={{ opacity: 1 }}
                    exit={{ opacity: 0 }}
                    style={styles.transitionContainer}
-                 />
+                 >
+                   <motion.div 
+                     animate={{ opacity: [0.5, 1, 0.5] }}
+                     transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                     style={styles.skeletonHeader} 
+                   />
+                   <div style={styles.skeletonBody}>
+                     <motion.div 
+                       animate={{ opacity: [0.5, 1, 0.5] }}
+                       transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                       style={styles.skeletonBlockLarge} 
+                     />
+                     <div style={styles.skeletonRow}>
+                       {[1, 2, 3].map(i => (
+                         <motion.div 
+                           key={i}
+                           animate={{ opacity: [0.5, 1, 0.5] }}
+                           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.1 }}
+                           style={styles.skeletonBlockSmall} 
+                         />
+                       ))}
+                     </div>
+                   </div>
+                 </motion.div>
                ) : (
                  <motion.div
                    key="content"
@@ -387,22 +410,35 @@ const styles = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'var(--surface)',
-    border: '1px solid var(--line)',
-    borderRadius: 'var(--radius)',
+    gap: '24px',
+  },
+  skeletonHeader: {
+    width: '40%',
+    height: '24px',
+    borderRadius: '4px',
+    background: 'var(--surface-2)',
+  },
+  skeletonBody: {
+    display: 'flex',
+    flexDirection: 'column',
     gap: '16px',
-    padding: '40px',
-    textAlign: 'center',
+    flex: 1,
   },
-  transitionTitle: {
-    fontSize: '20px',
-    fontWeight: 600,
-    margin: 0,
+  skeletonBlockLarge: {
+    width: '100%',
+    height: '200px',
+    borderRadius: 'var(--radius)',
+    background: 'var(--surface-2)',
   },
-  transitionSubtitle: {
-    color: 'var(--muted)',
-    margin: 0,
+  skeletonRow: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '16px',
+  },
+  skeletonBlockSmall: {
+    width: '100%',
+    height: '120px',
+    borderRadius: 'var(--radius)',
+    background: 'var(--surface-2)',
   }
 };

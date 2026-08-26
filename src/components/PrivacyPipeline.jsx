@@ -26,50 +26,7 @@ export default function PrivacyPipeline() {
       </div>
 
       <div style={styles.pipelineArea}>
-        {/* The Pipeline Nodes */}
-        <div style={styles.nodesContainer}>
-          {PIPELINE_STEPS.map((step, index) => {
-            const isActive = index === activeStep;
-            const isPast = index < activeStep;
-            
-            return (
-              <div key={step.id} style={styles.nodeWrapper}>
-                <motion.div
-                  style={{
-                    ...styles.node,
-                    borderColor: isActive ? 'var(--teal)' : isPast ? 'var(--brass)' : 'var(--line)',
-                    color: isActive ? 'var(--teal)' : isPast ? 'var(--ink)' : 'var(--muted)',
-                    background: isActive ? 'rgba(95, 207, 192, 0.1)' : 'var(--surface-2)',
-                  }}
-                  animate={{
-                    scale: isActive ? 1.1 : 1,
-                    y: isActive ? -5 : 0
-                  }}
-                >
-                  {step.icon}
-                </motion.div>
-                <div style={{
-                  ...styles.nodeLabel,
-                  color: isActive ? 'var(--teal)' : isPast ? 'var(--ink)' : 'var(--muted)'
-                }}>
-                  {step.label}
-                </div>
-                
-                {/* Connector Line */}
-                {index < PIPELINE_STEPS.length - 1 && (
-                  <div style={styles.connector}>
-                    <motion.div 
-                      style={styles.connectorFill}
-                      initial={{ width: '0%' }}
-                      animate={{ width: isPast ? '100%' : '0%' }}
-                      transition={{ duration: 0.5 }}
-                    />
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+
 
         {/* Visualizer Area */}
         <div style={styles.visualizer}>
@@ -84,16 +41,59 @@ export default function PrivacyPipeline() {
                 fontWeight: 600,
                 color: 'var(--teal)',
                 textAlign: 'center',
-                minHeight: '120px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                maxWidth: '400px'
+                marginBottom: '16px'
               }}
             >
               {PIPELINE_STEPS[activeStep].label}
             </motion.div>
           </AnimatePresence>
+
+          <div style={styles.screenMockup}>
+            <div style={styles.fakeHeader}>
+              <div style={styles.fakeDots} />
+              <div style={styles.fakeSearch} />
+            </div>
+            <div style={styles.fakeBody}>
+              <div style={styles.fakeTextLine} />
+              <div style={{...styles.fakeTextLine, width: '80%'}} />
+              
+              <motion.div 
+                animate={{
+                  filter: activeStep >= 1 ? 'blur(4px)' : 'none',
+                  background: activeStep >= 1 ? 'var(--danger)' : 'var(--surface-2)',
+                }}
+                transition={{ duration: 0.5 }}
+                style={styles.sensitiveData}
+              >
+                john.doe@example.com - SSN: 000-00-0000
+              </motion.div>
+
+              <AnimatePresence>
+                {activeStep === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 1, 0] }}
+                    transition={{ duration: 0.8 }}
+                    style={styles.flashOverlay}
+                  />
+                )}
+                {activeStep >= 2 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    style={styles.encryptionOverlay}
+                  >
+                    <Lock size={48} color="var(--teal)" />
+                    <div style={{ marginTop: '12px', color: 'var(--teal)', fontWeight: 'bold', fontFamily: "'IBM Plex Mono', monospace" }}>
+                      SECURELY STORED
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
 
           <div style={styles.badges}>
             <span style={styles.badge}>PII REDACTED</span>
@@ -137,52 +137,6 @@ const styles = {
     flexDirection: 'column',
     gap: '48px',
     alignItems: 'center',
-  },
-  nodesContainer: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    width: '100%',
-    padding: '0 20px',
-  },
-  nodeWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    position: 'relative',
-    flex: 1,
-  },
-  node: {
-    width: '48px',
-    height: '48px',
-    borderRadius: '50%',
-    border: '2px solid',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 2,
-    backgroundColor: 'var(--bg)',
-  },
-  nodeLabel: {
-    marginTop: '12px',
-    fontSize: '12px',
-    fontWeight: 600,
-    textAlign: 'center',
-    fontFamily: "'IBM Plex Mono', monospace",
-    maxWidth: '160px',
-  },
-  connector: {
-    position: 'absolute',
-    top: '24px',
-    left: '50%',
-    width: '100%',
-    height: '2px',
-    background: 'var(--line)',
-    zIndex: 1,
-  },
-  connectorFill: {
-    height: '100%',
-    background: 'var(--brass)',
   },
   visualizer: {
     width: '100%',
