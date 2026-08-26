@@ -14,16 +14,16 @@ export default function PrivacySection({
   title = 'The agent that redacts before it remembers',
   items = [
     {
-      title: 'Blurred in memory, never on disk',
-      description: 'Screenshots pass through a Gaussian blur in Rust before they\'re ever written anywhere. The raw, unblurred frame simply never exists on disk or on the wire.',
+      title: 'Screenshot captured',
+      description: 'The screen is captured locally on your device.',
     },
     {
-      title: 'Window titles are scrubbed on-device',
-      description: 'Emails, card numbers, and SSNs are stripped by a compiled regex pass before a title ever leaves the machine.',
+      title: 'Content blurred for privacy',
+      description: 'Sensitive data and personal information are automatically blurred.',
     },
     {
-      title: 'Every image is checksummed',
-      description: 'An HMAC-SHA256 signature travels with each screenshot, so tampering or substitution is provable, not assumed.',
+      title: 'Storing in database',
+      description: 'Only the privacy-safe, blurred images are securely stored in the database.',
     },
   ],
 }) {

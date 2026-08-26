@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap, Loader } from 'lucide-react';
 
 import ActivityPulse from './ActivityPulse';
 import ProductivityAnalytics from './ProductivityAnalytics';
@@ -46,6 +46,20 @@ export default function InteractiveDashboard() {
   ];
 
   const [activeNav, setActiveNav] = useState('Activity');
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [pendingNav, setPendingNav] = useState(null);
+
+  const handleNavClick = (name) => {
+    if (name === activeNav || isTransitioning) return;
+    setPendingNav(name);
+    setIsTransitioning(true);
+    
+    setTimeout(() => {
+      setActiveNav(name);
+      setIsTransitioning(false);
+      setPendingNav(null);
+    }, 3000);
+  };
 
   return (
     <div style={styles.dashboardWrapper}>
@@ -62,10 +76,13 @@ export default function InteractiveDashboard() {
               key={item.name} 
               style={{
                 ...styles.navItem, 
-                color: activeNav === item.name ? 'var(--ink)' : 'var(--muted)',
-                background: activeNav === item.name ? 'var(--surface-2)' : 'transparent'
+                color: (pendingNav || activeNav) === item.name ? 'var(--ink)' : 'var(--muted)',
+                background: (pendingNav || activeNav) === item.name ? 'var(--surface-2)' : 'transparent',
+                opacity: isTransitioning && pendingNav !== item.name ? 0.5 : 1,
+                cursor: isTransitioning ? 'wait' : 'pointer'
               }}
-              onClick={() => setActiveNav(item.name)}
+              onClick={() => handleNavClick(item.name)}
+              disabled={isTransitioning}
             >
               {item.icon}
               {item.name}
@@ -95,18 +112,36 @@ export default function InteractiveDashboard() {
         {/* Left/Main Column - Will hold the interactive visualizations */}
         <div style={styles.centerCol}>
 
-
           <div style={styles.visualizationsPlaceholder}>
-             {activeNav === 'Activity' && (
-               <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-                 <ActivityPulse />
-                 <AppUtilization />
-               </div>
-             )}
-             {activeNav === 'Productivity' && <ProductivityAnalytics />}
-             {activeNav === 'Privacy' && <PrivacyPipeline />}
-             {activeNav === 'Devices' && <DeviceHealth />}
-             {activeNav === 'Analytics' && <EnterpriseInsights />}
+             <AnimatePresence mode="wait">
+               {isTransitioning ? (
+                 <motion.div 
+                   key="transition"
+                   initial={{ opacity: 0 }}
+                   animate={{ opacity: 1 }}
+                   exit={{ opacity: 0 }}
+                   style={styles.transitionContainer}
+                 />
+               ) : (
+                 <motion.div
+                   key="content"
+                   initial={{ opacity: 0, y: 10 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   exit={{ opacity: 0, y: -10 }}
+                   style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+                 >
+                   {activeNav === 'Activity' && (
+                     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', flex: 1 }}>
+                       <AppUtilization />
+                     </div>
+                   )}
+                   {activeNav === 'Productivity' && <ProductivityAnalytics />}
+                   {activeNav === 'Privacy' && <PrivacyPipeline />}
+                   {activeNav === 'Devices' && <DeviceHealth />}
+                   {activeNav === 'Analytics' && <EnterpriseInsights />}
+                 </motion.div>
+               )}
+             </AnimatePresence>
           </div>
           
         </div>
@@ -289,6 +324,9 @@ const styles = {
   },
   visualizationsPlaceholder: {
     minHeight: '400px',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
   },
   emptyNavState: {
     padding: '60px',
@@ -308,6 +346,9 @@ const styles = {
     border: '1px solid var(--line)',
     borderRadius: 'var(--radius)',
     padding: '24px',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
   },
   metricsTitle: {
     fontSize: '12px',
@@ -342,4 +383,26 @@ const styles = {
     color: 'var(--ink)',
     letterSpacing: '-0.02em',
   },
+  transitionContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'var(--surface)',
+    border: '1px solid var(--line)',
+    borderRadius: 'var(--radius)',
+    gap: '16px',
+    padding: '40px',
+    textAlign: 'center',
+  },
+  transitionTitle: {
+    fontSize: '20px',
+    fontWeight: 600,
+    margin: 0,
+  },
+  transitionSubtitle: {
+    color: 'var(--muted)',
+    margin: 0,
+  }
 };

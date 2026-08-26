@@ -135,6 +135,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '24px',
+    flex: 1,
   },
   header: {
     borderBottom: '1px solid var(--line)',

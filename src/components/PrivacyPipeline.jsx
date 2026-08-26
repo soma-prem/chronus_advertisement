@@ -3,12 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Cpu, EyeOff, ShieldCheck, Lock, Cloud } from 'lucide-react';
 
 const PIPELINE_STEPS = [
-  { id: 'capture', icon: <Camera size={20} />, label: 'Screen Capture' },
-  { id: 'processing', icon: <Cpu size={20} />, label: 'Local Processing' },
-  { id: 'pii', icon: <EyeOff size={20} />, label: 'PII Redaction' },
-  { id: 'blur', icon: <ShieldCheck size={20} />, label: 'Client-Side Blur' },
-  { id: 'storage', icon: <Lock size={20} />, label: 'Encrypted Storage' },
-  { id: 'sync', icon: <Cloud size={20} />, label: 'Secure Sync' },
+  { id: 'capture', icon: <Camera size={20} />, label: 'Screen captured' },
+  { id: 'blur', icon: <EyeOff size={20} />, label: 'Private data detected screen gets blured' },
+  { id: 'storage', icon: <Lock size={20} />, label: 'Screen record stored securly' },
 ];
 
 export default function PrivacyPipeline() {
@@ -79,42 +76,22 @@ export default function PrivacyPipeline() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeStep}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.05 }}
-              transition={{ duration: 0.4 }}
-              style={styles.screenMockup}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              style={{
+                fontSize: '24px',
+                fontWeight: 600,
+                color: 'var(--teal)',
+                textAlign: 'center',
+                minHeight: '120px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                maxWidth: '400px'
+              }}
             >
-              {/* Fake UI to represent the screen */}
-              <div style={styles.fakeHeader}>
-                <div style={styles.fakeDots} />
-                <div style={styles.fakeSearch} />
-              </div>
-              <div style={styles.fakeBody}>
-                {/* Content changes based on step */}
-                <div style={styles.fakeTextLine} />
-                <div style={{...styles.fakeTextLine, width: '80%'}} />
-                
-                <motion.div 
-                  style={{
-                    ...styles.sensitiveData,
-                    filter: activeStep >= 3 ? 'blur(4px)' : 'none',
-                    background: activeStep >= 2 ? 'var(--danger)' : 'var(--surface-2)',
-                  }}
-                >
-                  {activeStep >= 2 ? '[REDACTED_PII]' : 'john.doe@example.com - SSN: 000-00-0000'}
-                </motion.div>
-
-                {activeStep >= 4 && (
-                  <motion.div 
-                    initial={{ opacity: 0 }} 
-                    animate={{ opacity: 1 }} 
-                    style={styles.encryptionOverlay}
-                  >
-                    <Lock size={48} color="var(--brass)" opacity={0.5} />
-                  </motion.div>
-                )}
-              </div>
+              {PIPELINE_STEPS[activeStep].label}
             </motion.div>
           </AnimatePresence>
 
@@ -139,6 +116,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '40px',
+    flex: 1,
   },
   header: {
     textAlign: 'center',
@@ -191,7 +169,7 @@ const styles = {
     fontWeight: 600,
     textAlign: 'center',
     fontFamily: "'IBM Plex Mono', monospace",
-    maxWidth: '80px',
+    maxWidth: '160px',
   },
   connector: {
     position: 'absolute',
@@ -274,8 +252,15 @@ const styles = {
     background: 'rgba(10, 10, 11, 0.8)',
     backdropFilter: 'blur(4px)',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  flashOverlay: {
+    position: 'absolute',
+    inset: 0,
+    background: 'rgba(255, 255, 255, 0.1)',
+    pointerEvents: 'none',
   },
   badges: {
     display: 'flex',
