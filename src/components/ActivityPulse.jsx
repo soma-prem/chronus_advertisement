@@ -34,7 +34,7 @@ export default function ActivityPulse() {
                 <div style={styles.miniStat}><span style={styles.miniLabel}>App</span> {hoveredNode.app}</div>
                 <div style={styles.miniStat}><span style={styles.miniLabel}>Duration</span> {hoveredNode.duration}</div>
                 <div style={styles.miniStat}><span style={styles.miniLabel}>Category</span> <span style={{color: hoveredNode.color}}>{hoveredNode.category}</span></div>
-                <div style={styles.miniStat}><span style={styles.miniLabel}>Privacy</span> <span style={styles.infoValuePill}>{hoveredNode.privacy}</span></div>
+                <div style={styles.miniStat}><span style={styles.miniLabel}> ePrivacy</span> <span style={styles.infoValuePill}>{hoveredNode.privacy}</span></div>
               </motion.div>
             ) : (
               <motion.div
