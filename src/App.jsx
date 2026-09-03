@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import DashboardHero from './components/DashboardHero';
 import InteractiveDashboard from './components/InteractiveDashboard';
+
+import Footer from './components/Footer';
 import './globals.css';
+import AppPreview from './components/AppPreview';
+import Contact from './components/Contact';
 
 export default function App() {
   const [isLightTheme, setIsLightTheme] = useState(false);
@@ -19,6 +23,12 @@ export default function App() {
           onToggleTheme={() => setIsLightTheme((theme) => !theme)}
         />
       </div>
+      <AppPreview/>
+      <Contact/>
+      <Footer />
     </>
   );
 }
+
+
+

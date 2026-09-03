@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Play, Monitor, Laptop, Server, Lock, Database } from 'lucide-react';
+import { Play, Monitor, Clock, Radio, Lock,  ChartNoAxesCombined  } from 'lucide-react';
 
 export default function DashboardHero() {
   return (
@@ -23,20 +23,20 @@ export default function DashboardHero() {
           {/* Floating Nodes */}
           <div style={styles.nodesOverlay}>
             <motion.div animate={{ x: [0, 15, -10, 0], y: [0, -15, 10, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} style={{...styles.node, top: '15%', left: '5%'}}>
-              <Monitor size={16} color="var(--muted)" /> Windows
+              <Monitor size={16} color="var(--muted)" /> Device Health
             </motion.div>
             <motion.div animate={{ x: [0, -10, 15, 0], y: [0, 20, -5, 0] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} style={{...styles.node, top: '60%', left: '8%'}}>
-              <Laptop size={16} color="var(--muted)" /> macOS
+              <Clock size={16} color="var(--muted)" /> Active Time
             </motion.div>
             <motion.div animate={{ x: [0, 10, -15, 0], y: [0, -10, 15, 0] }} transition={{ duration: 9, repeat: Infinity, ease: "linear" }} style={{...styles.node, top: '85%', left: '20%'}}>
-              <Server size={16} color="var(--muted)" /> Linux
+              <Radio size={16} color="var(--muted)" /> Security & Trust
             </motion.div>
 
             <motion.div animate={{ scale: [1, 1.05, 1], y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} style={{...styles.node, top: '10%', left: '45%', border: '1px solid var(--teal)', color: 'var(--teal)'}}>
               <Lock size={16} /> Privacy Processing
             </motion.div>
             <motion.div animate={{ x: [0, -15, 10, 0], y: [0, 15, -10, 0] }} transition={{ duration: 12, repeat: Infinity, ease: "linear" }} style={{...styles.node, top: '50%', right: '5%'}}>
-              <Database size={16} color="var(--brass)" /> Analytics
+              < ChartNoAxesCombined  size={16} color="var(--brass)" /> App Utilization
             </motion.div>
           </div>
         </div>

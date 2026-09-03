@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap, Loader, Sun, Moon } from 'lucide-react';
 
+import { motion } from 'framer-motion';
+import { PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap } from 'lucide-react';
+//import Contact from './Contact';
 import ActivityPulse from './ActivityPulse';
 import ProductivityAnalytics from './ProductivityAnalytics';
 import AppUtilization from './AppUtilization';
+
 import PrivacyPipeline from './PrivacyPipeline';
+//import ExecutiveOverview from './ExecutiveOverview';
 // import PerformanceSection from './PerformanceSection';
 // import OfflineQueue from './OfflineQueue';
 // import CrossPlatform from './CrossPlatform';
@@ -54,6 +59,7 @@ export default function InteractiveDashboard({ isLightTheme, onToggleTheme }) {
     { name: 'Privacy', icon: <Shield size={16} /> },
     { name: 'Analytics', icon: <BarChart3 size={16} /> },
     { name: 'Pricing', icon: <span aria-hidden="true">$</span> },
+      { name: 'Contact', icon: <Users size={16} /> },
   ];
 
   const [activeNav, setActiveNav] = useState('Activity');
@@ -80,6 +86,8 @@ export default function InteractiveDashboard({ isLightTheme, onToggleTheme }) {
           <div style={styles.logoMark} />
           <span style={styles.brandText}>Chronos</span>
         </div>
+
+        
         
         <nav style={styles.nav}>
           {navItems.map((item) => (
@@ -126,6 +134,8 @@ export default function InteractiveDashboard({ isLightTheme, onToggleTheme }) {
           <div style={styles.profileAvatar}>J</div>
         </div>
       </header>
+
+          {/* <ExecutiveOverview /> */}
 
       {/* Main Dashboard Layout */}
       <main style={styles.mainContent}>
@@ -187,6 +197,17 @@ export default function InteractiveDashboard({ isLightTheme, onToggleTheme }) {
                  </motion.div>
                )}
              </AnimatePresence>
+             {activeNav === 'Activity' && (
+               <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                 <ActivityPulse />
+                 <AppUtilization />
+               </div>
+             )}
+             {activeNav === 'Productivity' && <ProductivityAnalytics />}
+             {activeNav === 'Privacy' && <PrivacyPipeline />}
+             {activeNav === 'Devices' && <DeviceHealth />}
+             {activeNav === 'Analytics' && <EnterpriseInsights />}
+             {/* {activeNav === 'Contact' && <Contact />} */}
           </div>
           
         </div>
