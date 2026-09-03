@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap, Loader, Sun, Moon } from 'lucide-react';
+import { PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap, Sun, Moon } from 'lucide-react';
 
-import { motion } from 'framer-motion';
-import { PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap } from 'lucide-react';
 //import Contact from './Contact';
 import ActivityPulse from './ActivityPulse';
 import ProductivityAnalytics from './ProductivityAnalytics';
@@ -200,13 +198,8 @@ export default function InteractiveDashboard({ isLightTheme, onToggleTheme }) {
              {activeNav === 'Activity' && (
                <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
                  <ActivityPulse />
-                 <AppUtilization />
                </div>
              )}
-             {activeNav === 'Productivity' && <ProductivityAnalytics />}
-             {activeNav === 'Privacy' && <PrivacyPipeline />}
-             {activeNav === 'Devices' && <DeviceHealth />}
-             {activeNav === 'Analytics' && <EnterpriseInsights />}
              {/* {activeNav === 'Contact' && <Contact />} */}
           </div>
           
