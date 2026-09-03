@@ -203,7 +203,7 @@ const styles = {
   encryptionOverlay: {
     position: 'absolute',
     inset: 0,
-    background: 'rgba(10, 10, 11, 0.8)',
+    background: 'var(--header-bg)',
     backdropFilter: 'blur(4px)',
     display: 'flex',
     flexDirection: 'column',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap, Loader } from 'lucide-react';
+import { PieChart, Monitor, Shield, BarChart3, Users, Clock, Zap, Loader, Sun, Moon } from 'lucide-react';
 
 import ActivityPulse from './ActivityPulse';
 import ProductivityAnalytics from './ProductivityAnalytics';
@@ -10,6 +10,7 @@ import PrivacyPipeline from './PrivacyPipeline';
 // import OfflineQueue from './OfflineQueue';
 // import CrossPlatform from './CrossPlatform';
 import DeviceHealth from './DeviceHealth';
+import PricingSection from './PricingSection';
 // import ArchitectureViz from './ArchitectureViz';
 // import AgentFsm from './AgentFsm';
 // import PrivacyControls from './PrivacyControls';
@@ -36,13 +37,23 @@ function Counter({ from, to, duration = 1 }) {
   return <span>{count}</span>;
 }
 
-export default function InteractiveDashboard() {
+const sidebarInsights = {
+  Activity: { offer: 'Live activity visibility', function: 'Tracks active time and application usage across the team.', necessary: 'Find workload gaps early without relying on guesswork.' },
+  Productivity: { offer: 'Focus and work patterns', function: 'Turns work sessions into clear productivity trends.', necessary: 'Help teams remove friction and protect deep-work time.' },
+  Devices: { offer: 'Device fleet health', function: 'Monitors device availability, sync status, and readiness.', necessary: 'Keep every endpoint reliable and prevent silent data gaps.' },
+  Privacy: { offer: 'Privacy-first controls', function: 'Redacts sensitive content and keeps raw data on-device.', necessary: 'Create useful visibility without turning monitoring into surveillance.' },
+  Analytics: { offer: 'Operational intelligence', function: 'Connects activity signals into trends leaders can act on.', necessary: 'Replace scattered reports with one consistent view of the business.' },
+  Pricing: { offer: 'Plans for every scale', function: 'Matches visibility, controls, and support to your organization.', necessary: 'Pay for the capabilities your team needs today and expand without replatforming.' },
+};
+
+export default function InteractiveDashboard({ isLightTheme, onToggleTheme }) {
   const navItems = [
     { name: 'Activity', icon: <Zap size={16} /> },
     { name: 'Productivity', icon: <PieChart size={16} /> },
     { name: 'Devices', icon: <Monitor size={16} /> },
     { name: 'Privacy', icon: <Shield size={16} /> },
     { name: 'Analytics', icon: <BarChart3 size={16} /> },
+    { name: 'Pricing', icon: <span aria-hidden="true">$</span> },
   ];
 
   const [activeNav, setActiveNav] = useState('Activity');
@@ -91,6 +102,16 @@ export default function InteractiveDashboard() {
         </nav>
 
         <div style={styles.headerRight}>
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={onToggleTheme}
+            aria-label={isLightTheme ? 'Switch to dark theme' : 'Switch to light theme'}
+            title={isLightTheme ? 'Switch to dark theme' : 'Switch to light theme'}
+            style={styles.themeToggle}
+          >
+            {isLightTheme ? <Moon size={16} /> : <Sun size={16} />}
+          </button>
           <div style={styles.liveStatus}>
             <motion.div 
               animate={{ opacity: [1, 0.4, 1] }} 
@@ -162,6 +183,7 @@ export default function InteractiveDashboard() {
                    {activeNav === 'Privacy' && <PrivacyPipeline />}
                    {activeNav === 'Devices' && <DeviceHealth />}
                    {activeNav === 'Analytics' && <EnterpriseInsights />}
+                   {activeNav === 'Pricing' && <PricingSection />}
                  </motion.div>
                )}
              </AnimatePresence>
@@ -228,6 +250,35 @@ export default function InteractiveDashboard() {
             </div>
 
           </motion.div>
+
+          <motion.div
+            key={activeNav}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+            style={styles.insightCard}
+          >
+            <div style={styles.insightHeader}>
+              <span style={styles.insightLabel}>Why {activeNav} matters</span>
+              <span style={styles.insightPulse} />
+            </div>
+            <strong style={styles.insightValue}>{sidebarInsights[activeNav].offer}</strong>
+            <div style={styles.insightRows}>
+              <div style={styles.insightRow}>
+                <span style={styles.insightRowLabel}>Offers</span>
+                <span style={styles.insightRowText}>{sidebarInsights[activeNav].offer}</span>
+              </div>
+              <div style={styles.insightRow}>
+                <span style={styles.insightRowLabel}>Function</span>
+                <span style={styles.insightRowText}>{sidebarInsights[activeNav].function}</span>
+              </div>
+              <div style={styles.insightRow}>
+                <span style={styles.insightRowLabel}>Necessary</span>
+                <span style={styles.insightRowText}>{sidebarInsights[activeNav].necessary}</span>
+              </div>
+            </div>
+            <div style={styles.insightRule} />
+          </motion.div>
         </aside>
 
       </main>
@@ -250,7 +301,7 @@ const styles = {
     justifyContent: 'space-between',
     padding: '16px 32px',
     borderBottom: '1px solid var(--line)',
-    background: 'rgba(10, 10, 11, 0.8)',
+    background: 'var(--header-bg)',
     backdropFilter: 'blur(12px)',
     position: 'sticky',
     top: 0,
@@ -293,6 +344,18 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '24px',
+  },
+  themeToggle: {
+    width: '34px',
+    height: '34px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: '1px solid var(--line)',
+    borderRadius: 'var(--radius)',
+    background: 'var(--surface)',
+    color: 'var(--ink)',
+    cursor: 'pointer',
   },
   liveStatus: {
     display: 'flex',
@@ -369,9 +432,86 @@ const styles = {
     border: '1px solid var(--line)',
     borderRadius: 'var(--radius)',
     padding: '24px',
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
+  },
+  insightCard: {
+    flex: 1,
+    minHeight: '190px',
+    padding: '24px',
+    border: '1px solid var(--line)',
+    borderRadius: 'var(--radius)',
+    background: 'linear-gradient(145deg, rgba(95, 207, 192, 0.08), var(--surface))',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  insightHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: '26px',
+  },
+  insightLabel: {
+    color: 'var(--muted)',
+    fontFamily: "'IBM Plex Mono', monospace",
+    fontSize: '11px',
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+  },
+  insightPulse: {
+    width: '7px',
+    height: '7px',
+    borderRadius: '50%',
+    background: 'var(--teal)',
+    boxShadow: '0 0 10px var(--teal)',
+  },
+  insightValue: {
+    color: 'var(--ink)',
+    fontFamily: "'Space Grotesk', sans-serif",
+    fontSize: '28px',
+    lineHeight: 1.1,
+  },
+  insightDetail: {
+    color: 'var(--muted)',
+    fontSize: '13px',
+    lineHeight: 1.55,
+    margin: '12px 0 0',
+    maxWidth: '260px',
+  },
+  insightRows: {
+    display: 'grid',
+    gap: '12px',
+    marginTop: '20px',
+  },
+  insightRow: {
+    display: 'grid',
+    gridTemplateColumns: '68px 1fr',
+    gap: '10px',
+    alignItems: 'start',
+  },
+  insightRowLabel: {
+    color: 'var(--teal)',
+    fontFamily: "'IBM Plex Mono', monospace",
+    fontSize: '10px',
+    letterSpacing: '0.04em',
+    textTransform: 'uppercase',
+  },
+  insightRowText: {
+    color: 'var(--muted)',
+    fontSize: '12px',
+    lineHeight: 1.4,
+  },
+  insightRule: {
+    width: '100%',
+    height: '1px',
+    background: 'var(--line)',
+    marginTop: 'auto',
+    marginBottom: '12px',
+  },
+  insightFooter: {
+    color: 'var(--teal)',
+    fontFamily: "'IBM Plex Mono', monospace",
+    fontSize: '10px',
   },
   metricsTitle: {
     fontSize: '12px',

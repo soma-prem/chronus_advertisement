@@ -193,7 +193,7 @@ export default function WaylandFallback({
         }
         .wlf-door-face {
           width: 100%; height: 100%;
-          background: rgba(18, 21, 26, 0.92);
+          background: var(--header-bg);
           border: 1px solid var(--danger);
           border-radius: 6px;
           display: flex;
