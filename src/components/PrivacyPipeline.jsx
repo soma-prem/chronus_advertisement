@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Cpu, EyeOff, ShieldCheck, Lock, Cloud } from 'lucide-react';
+import { Camera, EyeOff, Lock } from 'lucide-react';
 
 const PIPELINE_STEPS = [
   { id: 'capture', icon: <Camera size={20} />, label: 'Screen captured' },
