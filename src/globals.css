@@ -12,7 +12,28 @@
   --teal: #5FCFC0;
   --danger: #C97A6A;
   --success: #34d399;
+  --header-bg: rgba(10, 10, 11, 0.8);
+  --grid-line: rgba(255, 255, 255, 0.02);
+  --hero-gradient: linear-gradient(to right, #FFFFFF, #8B93A3);
   --radius: 8px;
+}
+
+body.light-theme {
+  --bg: #f3f1eb;
+  --surface: rgba(255, 255, 255, 0.76);
+  --surface-2: rgba(232, 229, 220, 0.86);
+  --glass: rgba(255, 255, 255, 0.64);
+  --glass-border: rgba(38, 43, 48, 0.14);
+  --line: rgba(38, 43, 48, 0.16);
+  --ink: #20252a;
+  --muted: #66717b;
+  --brass: #9a6f25;
+  --brass-dim: #b38d4b;
+  --teal: #168f87;
+  --danger: #a94f42;
+  --header-bg: rgba(243, 241, 235, 0.88);
+  --grid-line: rgba(38, 43, 48, 0.06);
+  --hero-gradient: linear-gradient(to right, #20252a, #66717b);
 }
 
 * {
@@ -32,6 +53,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* Subtle noise texture */
@@ -52,8 +74,8 @@ body::after {
   inset: 0;
   z-index: -2;
   background-image: 
-    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
 }

@@ -147,7 +147,7 @@ const styles = {
     lineHeight: 1.1,
     fontWeight: 600,
     marginBottom: '24px',
-    background: 'linear-gradient(to right, #FFFFFF, #8B93A3)',
+    background: 'var(--hero-gradient)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
   },

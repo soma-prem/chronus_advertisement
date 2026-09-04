@@ -242,6 +242,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
+    flex: 1,
   },
   loadingContainer: {
     display: 'flex',

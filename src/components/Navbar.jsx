@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 /**
  * Navbar — sticky top navigation bar with logo, links, and CTA buttons.
@@ -20,6 +21,8 @@ export default function Navbar({
   ctaLabel = 'Request a demo',
   ctaHref = '#cta',
 }) {
+  const [moreOpen, setMoreOpen] = useState(false);
+
   return (
     <header style={styles.header}>
       <nav style={styles.nav}>
@@ -36,6 +39,22 @@ export default function Navbar({
               {link.label}
             </a>
           ))}
+          <div className="more-menu">
+            <button
+              type="button"
+              className="more-trigger"
+              aria-expanded={moreOpen}
+              aria-controls="more-menu-items"
+              onClick={() => setMoreOpen((open) => !open)}
+            >
+              More <ChevronDown size={14} />
+            </button>
+            {moreOpen && (
+              <div id="more-menu-items" className="more-items">
+                <a href="#pricing" onClick={() => setMoreOpen(false)}>Pricing</a>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Right-side CTAs */}
@@ -110,6 +129,34 @@ export default function Navbar({
           transition: color 0.15s ease;
         }
         .navlinks a:hover { color: var(--ink); }
+        .more-menu { position: relative; }
+        .more-trigger {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 0;
+          border: 0;
+          background: transparent;
+          color: var(--muted);
+          font: inherit;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+        }
+        .more-trigger:hover { color: var(--ink); }
+        .more-items {
+          position: absolute;
+          top: calc(100% + 14px);
+          right: 0;
+          min-width: 140px;
+          padding: 8px;
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+          background: #16191f;
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+        }
+        .more-items a { display: block; padding: 9px 10px; color: var(--ink); }
+        .more-items a:hover { color: var(--brass); }
         .navcta { display: flex; align-items: center; gap: 20px; }
         @media (max-width: 820px) { .navlinks { display: none; } }
       `}</style>
